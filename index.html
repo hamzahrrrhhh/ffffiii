@@ -1349,6 +1349,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
+            // ========================= START: التعديل الأول =========================
+            // تحديد معرّف فريد لهذه الدعوة.
+            // !! يجب تغيير هذا المعرّف لكل دعوة جديدة !!
+            const invitationId = "ahmad-and-serine";
+            // ========================== END: التعديل الأول ==========================
+
+
             const firebaseConfig = {
                 apiKey: "AIzaSyB1pMv9fIJU6UlEik_wIvEWhmoq6Y8o0es",
                 authDomain: "wedding-invitation-guestbook.firebaseapp.com",
@@ -1470,7 +1477,7 @@
                 'https://dl.dropboxusercontent.com/scl/fi/uuswld9j4vyombj0clbkr/IMG-20250722-WA0004.jpg?rlkey=vlrj25kmy4tnnv84oiegqa73m&dl=0',
                 'https://dl.dropboxusercontent.com/scl/fi/rndo1z24ktieqc9m9wi5d/A2.jpg?rlkey=t8ff4n9ewvdw8vhvq2sv83dzm&st=hqbe2mc4&dl=0',
                 'https://dl.dropboxusercontent.com/scl/fi/u8rad4m9dyxpju3lftq8n/A3.jpg?rlkey=b3er8qwloykneo8x5y14wzix5&st=p71aftkc&dl=0'
-          
+
             ];
             if (albumCarousel && prevBtn && nextBtn) {
                 images.forEach((src, i) => {
@@ -1557,7 +1564,6 @@
                 });
             }
 
-            // --- START: تعديل الأنيميشن لقسم تفاصيل الحفل ---
             const detailsContainer = document.querySelector('.details-container');
             if (detailsContainer) {
                 const observerOptions = {
@@ -1576,8 +1582,6 @@
                 const detailsObserver = new IntersectionObserver(observerCallback, observerOptions);
                 detailsObserver.observe(detailsContainer);
             }
-            // --- END: تعديل الأنيميشن ---
-
 
             const guestbookForm = document.getElementById('guestbook-form');
             const messagesContainer = document.getElementById('messages-container');
@@ -1692,11 +1696,14 @@
                 submitButton.disabled = true;
                 submitButton.textContent = 'جار الإرسال...';
                 try {
+                    // ========================= START: التعديل الثاني =========================
                     await messagesCollection.add({
+                        invitationId: invitationId, // حفظ المعرّف مع كل رسالة
                         name: name,
                         message: message,
                         timestamp: firebase.firestore.FieldValue.serverTimestamp()
                     });
+                    // ========================== END: التعديل الثاني ==========================
                     nameInput.value = '';
                     messageInput.value = '';
                     showModal('شكراً على تهنئتك الجميلة!');
@@ -1708,13 +1715,20 @@
                     submitButton.textContent = 'إرسال التهنئة';
                 }
             });
-            messagesCollection.orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-                allMessages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderPage();
-            }, error => {
-                console.error("Firestore Read Error: ", error);
-                messagesContainer.innerHTML = '<p style="color: var(--warm-gray); text-align: center;">حدث خطأ في تحميل الرسائل. يرجى التأكد من قواعد الأمان في Firebase.</p>';
-            });
+
+            // ========================= START: التعديل الثالث =========================
+            // جلب الرسائل التي تطابق المعرّف الفريد للصفحة فقط
+            messagesCollection.where('invitationId', '==', invitationId)
+                .orderBy('timestamp', 'desc')
+                .onSnapshot(snapshot => {
+                    allMessages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderPage();
+                }, error => {
+                    console.error("Firestore Read Error: ", error);
+                    messagesContainer.innerHTML = '<p style="color: var(--warm-gray); text-align: center;">حدث خطأ في تحميل الرسائل. قد تحتاج لإنشاء فهرس في Firebase، يرجى مراجعة الـ Console.</p>';
+                });
+            // ========================== END: التعديل الثالث ==========================
+
             prevPageBtn.addEventListener('click', () => {
                 if (currentPage > 1) {
                     currentPage--;
