@@ -1,3 +1,12 @@
+بالتأكيد\! فهمت قصدك. بدلاً من أن تظهر الصناديق الثلاثة معاً بتأخير بسيط، سنجعل كل صندوق يبدأ حركته بشكل مستقل في اللحظة التي يدخل فيها إلى شاشة المستخدم أثناء التمرير. هذا يعطي إحساساً أفضل بالتفاعل ويجعل الحركة أجمل.
+
+للقيام بذلك، سنعدل كود الـ JavaScript ليراقب كل صندوق على حدة بدلاً من مراقبة الحاوية كلها، وسنقوم بتبسيط كود الـ CSS ليتناسب مع هذا التغيير.
+
+### الكود الكامل والنهائي (ملف `index.html`)
+
+لقد قمت بتطبيق التعديلات المطلوبة على الأنيميشن. ما عليك سوى نسخ هذا الكود بالكامل واستبدال محتوى ملف `index.html` لديك.
+
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -14,7 +23,7 @@
         :root {
             --gold-main: #b38728;
             --gold-light: #d4af37;
-            --gold-dark: #a0792a; /* لون ذهبي أغمق */
+            --gold-dark: #a0792a;
             --background-color: #fdfaf2;
             --warm-white: #FDF5E6;
             --warm-gray: #706c61;
@@ -398,23 +407,23 @@
             padding: 100px 20px 50px;
         }
 
-            .album-section::before,
-            .final-image-section::before,
-            .event-details-section::before,
-            .guestbook-section::before,
-            .site-footer::before {
-                content: '';
-                position: absolute;
-                top: 40px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 180px;
-                height: 45px;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Cpath d='M 80 25 C 40 5, 40 45, 80 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 120 25 C 160 5, 160 45, 120 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 100 15 L 110 25 L 100 35 L 90 25 Z' fill='%23b38728' /%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-size: contain;
-                background-position: center;
-            }
+        .album-section::before,
+        .final-image-section::before,
+        .event-details-section::before,
+        .guestbook-section::before,
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 45px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Cpath d='M 80 25 C 40 5, 40 45, 80 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 120 25 C 160 5, 160 45, 120 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 100 15 L 110 25 L 100 35 L 90 25 Z' fill='%23b38728' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
 
         .final-image-section::before {
             top: 5vh;
@@ -468,17 +477,17 @@
             overflow: hidden;
         }
 
-            .album-card img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: 10px;
-                user-select: none;
-            }
+        .album-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            user-select: none;
+        }
 
-            .album-card:not(.active-card) {
-                filter: brightness(0.6);
-            }
+        .album-card:not(.active-card) {
+            filter: brightness(0.6);
+        }
 
         .album-nav {
             position: absolute;
@@ -508,10 +517,10 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-            .nav-btn:hover {
-                background-color: #fff;
-                transform: scale(1.1);
-            }
+        .nav-btn:hover {
+            background-color: #fff;
+            transform: scale(1.1);
+        }
 
         .nav-icon {
             width: 24px;
@@ -569,7 +578,8 @@
             gap: 30px;
             margin-top: 40px;
         }
-
+        
+        /* --- START: تعديل الأنيميشن الجديد --- */
         .detail-item {
             width: 90%;
             max-width: 450px;
@@ -580,56 +590,45 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out, transform 0.6s ease-out; /* --- تعديل الأنيميشن --- */
-            opacity: 0; /* --- تعديل الأنيميشن: إخفاء الصناديق في البداية --- */
-            transform: translateY(40px); /* --- تعديل الأنيميشن: تحريكها للأسفل --- */
+            
+            /* إعدادات الأنيميشن لكل صندوق على حدة */
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* --- START: تعديل الأنيميشن --- */
-        .details-container.is-visible .detail-item {
+        .detail-item.is-visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
-
-            .details-container.is-visible .detail-item:nth-child(1) {
-                transition-delay: 0.1s;
-            }
-
-            .details-container.is-visible .detail-item:nth-child(2) {
-                transition-delay: 0.3s;
-            }
-
-            .details-container.is-visible .detail-item:nth-child(3) {
-                transition-delay: 0.5s;
-            }
-        /* --- END: تعديل الأنيميشن --- */
-
 
         .detail-item:hover {
-            transform: translateY(-5px);
             box-shadow: 0 12px 35px rgba(179, 135, 40, 0.2);
+            /* تعديل بسيط لتأثير المرور ليتناسب مع الأنيميشن */
+            transform: translateY(-5px) scale(1.02);
         }
+        /* --- END: تعديل الأنيميشن الجديد --- */
 
-        .detail-item .icon {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 5px;
-            fill: var(--gold-main);
-        }
+            .detail-item .icon {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 5px;
+                fill: var(--gold-main);
+            }
 
-        .detail-item h3 {
-            font-family: 'Aref Ruqaa', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--gold-main);
-            margin-bottom: 10px;
-        }
+            .detail-item h3 {
+                font-family: 'Aref Ruqaa', serif;
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--gold-main);
+                margin-bottom: 10px;
+            }
 
-        .detail-item p {
-            font-size: 1.3rem;
-            color: var(--warm-gray);
-            line-height: 1.8;
-        }
+            .detail-item p {
+                font-size: 1.3rem;
+                color: var(--warm-gray);
+                line-height: 1.8;
+            }
 
         .location-btn {
             display: inline-block;
@@ -1081,11 +1080,10 @@
             .album-section {
                 padding: 80px 0 40px;
             }
-
+            
             .album-carousel-container {
                 height: 350px;
             }
-
             .album-carousel {
                 width: 220px;
                 height: 300px;
@@ -1227,7 +1225,7 @@
     <section class="details-section">
         <img src="images/floral-decoration.png" alt="زخرفة ورد" class="floral-decoration-center" onerror="this.style.display='none'">
     </section>
-
+    
     <section id="album-section" class="album-section">
         <h2 class="section-title">أجمل لحظاتنا</h2>
         <div class="album-carousel-container">
@@ -1236,12 +1234,12 @@
             <div class="album-nav">
                 <button class="nav-btn" id="album-prev-btn" aria-label="الصورة السابقة">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 6L9 12L15 18" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M15 6L9 12L15 18" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
                 <button class="nav-btn" id="album-next-btn" aria-label="الصورة التالية">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 18L15 12L9 6" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M9 18L15 12L9 6" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
@@ -1469,8 +1467,9 @@
             const images = [
                 'https://dl.dropboxusercontent.com/scl/fi/uuswld9j4vyombj0clbkr/IMG-20250722-WA0004.jpg?rlkey=vlrj25kmy4tnnv84oiegqa73m&dl=0',
                 'https://dl.dropboxusercontent.com/scl/fi/rndo1z24ktieqc9m9wi5d/A2.jpg?rlkey=t8ff4n9ewvdw8vhvq2sv83dzm&st=hqbe2mc4&dl=0',
-                'https://dl.dropboxusercontent.com/scl/fi/u8rad4m9dyxpju3lftq8n/A3.jpg?rlkey=b3er8qwloykneo8x5y14wzix5&st=p71aftkc&dl=0'
-          
+                'https://dl.dropboxusercontent.com/scl/fi/u8rad4m9dyxpju3lftq8n/A3.jpg?rlkey=b3er8qwloykneo8x5y14wzix5&st=p71aftkc&dl=0',
+                'https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=600',
+                'https://images.pexels.com/photos/948185/pexels-photo-948185.jpeg?auto=compress&cs=tinysrgb&w=600'
             ];
             if (albumCarousel && prevBtn && nextBtn) {
                 images.forEach((src, i) => {
@@ -1556,27 +1555,29 @@
                     }
                 });
             }
-
-            // --- START: تعديل الأنيميشن لقسم تفاصيل الحفل ---
-            const detailsContainer = document.querySelector('.details-container');
-            if (detailsContainer) {
+            
+            // --- START: تعديل الأنيميشن الجديد لقسم تفاصيل الحفل ---
+            const detailItems = document.querySelectorAll('.detail-item');
+            if (detailItems.length > 0) {
                 const observerOptions = {
                     root: null,
                     rootMargin: '0px',
-                    threshold: 0.2
+                    threshold: 0.3 // تشغيل الأنيميشن عند ظهور 30% من الصندوق
                 };
                 const observerCallback = (entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            detailsContainer.classList.add('is-visible');
-                            observer.unobserve(entry.target);
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target); // إيقاف المراقبة بعد ظهور العنصر
                         }
                     });
                 };
                 const detailsObserver = new IntersectionObserver(observerCallback, observerOptions);
-                detailsObserver.observe(detailsContainer);
+                detailItems.forEach(item => {
+                    detailsObserver.observe(item); // مراقبة كل صندوق على حدة
+                });
             }
-            // --- END: تعديل الأنيميشن ---
+            // --- END: تعديل الأنيميشن الجديد ---
 
 
             const guestbookForm = document.getElementById('guestbook-form');
@@ -1732,3 +1733,4 @@
     </script>
 </body>
 </html>
+```
