@@ -1699,13 +1699,13 @@
                     });
                     nameInput.value = '';
                     messageInput.value = '';
-                    showModal('شكراً على أمنيتك الجميلة!');
+                    showModal('شكراً على تهنئتك الجميلة!');
                 } catch (error) {
                     console.error("Firestore Write Error: ", error);
                     showModal('عذراً، حدث خطأ أثناء إرسال الرسالة.');
                 } finally {
                     submitButton.disabled = false;
-                    submitButton.textContent = 'إرسال الأمنية';
+                    submitButton.textContent = 'إرسال التهنئة';
                 }
             });
             messagesCollection.orderBy('timestamp', 'desc').onSnapshot(snapshot => {
