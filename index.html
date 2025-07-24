@@ -14,7 +14,7 @@
         :root {
             --gold-main: #b38728;
             --gold-light: #d4af37;
-            --gold-dark: #a0792a;
+            --gold-dark: #a0792a; /* لون ذهبي أغمق */
             --background-color: #fdfaf2;
             --warm-white: #FDF5E6;
             --warm-gray: #706c61;
@@ -398,23 +398,23 @@
             padding: 100px 20px 50px;
         }
 
-        .album-section::before,
-        .final-image-section::before,
-        .event-details-section::before,
-        .guestbook-section::before,
-        .site-footer::before {
-            content: '';
-            position: absolute;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 180px;
-            height: 45px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Cpath d='M 80 25 C 40 5, 40 45, 80 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 120 25 C 160 5, 160 45, 120 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 100 15 L 110 25 L 100 35 L 90 25 Z' fill='%23b38728' /%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center;
-        }
+            .album-section::before,
+            .final-image-section::before,
+            .event-details-section::before,
+            .guestbook-section::before,
+            .site-footer::before {
+                content: '';
+                position: absolute;
+                top: 40px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 180px;
+                height: 45px;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50'%3E%3Cpath d='M 80 25 C 40 5, 40 45, 80 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 120 25 C 160 5, 160 45, 120 25' stroke='%23b38728' stroke-width='2' fill='none' /%3E%3Cpath d='M 100 15 L 110 25 L 100 35 L 90 25 Z' fill='%23b38728' /%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+            }
 
         .final-image-section::before {
             top: 5vh;
@@ -468,17 +468,17 @@
             overflow: hidden;
         }
 
-        .album-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            user-select: none;
-        }
+            .album-card img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 10px;
+                user-select: none;
+            }
 
-        .album-card:not(.active-card) {
-            filter: brightness(0.6);
-        }
+            .album-card:not(.active-card) {
+                filter: brightness(0.6);
+            }
 
         .album-nav {
             position: absolute;
@@ -508,10 +508,10 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .nav-btn:hover {
-            background-color: #fff;
-            transform: scale(1.1);
-        }
+            .nav-btn:hover {
+                background-color: #fff;
+                transform: scale(1.1);
+            }
 
         .nav-icon {
             width: 24px;
@@ -569,7 +569,7 @@
             gap: 30px;
             margin-top: 40px;
         }
-        
+
         .detail-item {
             width: 90%;
             max-width: 450px;
@@ -580,42 +580,56 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-            
-            opacity: 0;
-            transform: translateY(30px) scale(0.98);
-            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease-out, transform 0.6s ease-out; /* --- تعديل الأنيميشن --- */
+            opacity: 0; /* --- تعديل الأنيميشن: إخفاء الصناديق في البداية --- */
+            transform: translateY(40px); /* --- تعديل الأنيميشن: تحريكها للأسفل --- */
         }
 
-        .detail-item.is-visible {
+        /* --- START: تعديل الأنيميشن --- */
+        .details-container.is-visible .detail-item {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
+
+            .details-container.is-visible .detail-item:nth-child(1) {
+                transition-delay: 0.1s;
+            }
+
+            .details-container.is-visible .detail-item:nth-child(2) {
+                transition-delay: 0.3s;
+            }
+
+            .details-container.is-visible .detail-item:nth-child(3) {
+                transition-delay: 0.5s;
+            }
+        /* --- END: تعديل الأنيميشن --- */
+
 
         .detail-item:hover {
+            transform: translateY(-5px);
             box-shadow: 0 12px 35px rgba(179, 135, 40, 0.2);
-            transform: translateY(-5px) scale(1.02);
         }
 
-            .detail-item .icon {
-                width: 50px;
-                height: 50px;
-                margin-bottom: 5px;
-                fill: var(--gold-main);
-            }
+        .detail-item .icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 5px;
+            fill: var(--gold-main);
+        }
 
-            .detail-item h3 {
-                font-family: 'Aref Ruqaa', serif;
-                font-size: 2rem;
-                font-weight: 700;
-                color: var(--gold-main);
-                margin-bottom: 10px;
-            }
+        .detail-item h3 {
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold-main);
+            margin-bottom: 10px;
+        }
 
-            .detail-item p {
-                font-size: 1.3rem;
-                color: var(--warm-gray);
-                line-height: 1.8;
-            }
+        .detail-item p {
+            font-size: 1.3rem;
+            color: var(--warm-gray);
+            line-height: 1.8;
+        }
 
         .location-btn {
             display: inline-block;
@@ -1067,10 +1081,11 @@
             .album-section {
                 padding: 80px 0 40px;
             }
-            
+
             .album-carousel-container {
                 height: 350px;
             }
+
             .album-carousel {
                 width: 220px;
                 height: 300px;
@@ -1180,9 +1195,9 @@
             <h1>دعوة زفاف</h1>
             <p>نتشرف بدعوتكم لمشاركتنا فرحتنا</p>
             <div class="groom-bride-names">
-                <span id="bride-name" class="name"></span>
+                <span class="name">فاطمة</span>
                 <span class="separator">&</span>
-                <span id="groom-name" class="name"></span>
+                <span class="name">أحمد</span>
             </div>
         </div>
 
@@ -1212,7 +1227,7 @@
     <section class="details-section">
         <img src="images/floral-decoration.png" alt="زخرفة ورد" class="floral-decoration-center" onerror="this.style.display='none'">
     </section>
-    
+
     <section id="album-section" class="album-section">
         <h2 class="section-title">أجمل لحظاتنا</h2>
         <div class="album-carousel-container">
@@ -1221,12 +1236,12 @@
             <div class="album-nav">
                 <button class="nav-btn" id="album-prev-btn" aria-label="الصورة السابقة">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 6L9 12L15 18" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M15 6L9 12L15 18" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
                 <button class="nav-btn" id="album-next-btn" aria-label="الصورة التالية">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 18L15 12L9 6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 18L15 12L9 6" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
             </div>
@@ -1234,8 +1249,9 @@
     </section>
 
     <section id="final-image-section" class="final-image-section">
-        <img id="final-image-bg" class="bg-image" src="" alt="خلفية ختامية">
+        <img class="bg-image" src="https://dl.dropboxusercontent.com/scl/fi/822y1d52fqtdjlc09g9ym/P.png?rlkey=9f970glxgwrz9h26liwzf0jcb" alt="خلفية ختامية">
         <div class="content">
+
         </div>
     </section>
 
@@ -1245,18 +1261,18 @@
             <div class="detail-item">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H18V2H16V4H8V2H6V4H5A2,2 0 0,0 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V10H19V20M19,8H5V6H19V8M12,13H17V18H12V13Z" /></svg>
                 <h3>التاريخ</h3>
-                <p id="event-date"></p>
+                <p>الجمعة، ٢٥ ديسمبر ٢٠٢٥</p>
             </div>
             <div class="detail-item">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" /></svg>
                 <h3>الوقت</h3>
-                <p id="event-time"></p>
+                <p>تبدأ المراسم الساعة ٨:٠٠ مساءً</p>
             </div>
             <div class="detail-item">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" /></svg>
                 <h3>الموقع</h3>
-                <p id="event-location"></p>
-                <a id="event-maps-link" href="#" target="_blank" class="location-btn">موقع الصاله</a>
+                <p>قاعة بانوراما، عمان, الأردن</p>
+                <a href="https://maps.app.goo.gl/qzFRzuZus6zs3QP58" target="_blank" class="location-btn">موقع الصاله</a>
             </div>
         </div>
     </section>
@@ -1288,10 +1304,10 @@
         <div class="footer-container">
             <div class="footer-item">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" /></svg>
-                <p id="footer-location"></p>
+                <p>قاعة بانوراما، عمان, الأردن</p>
             </div>
             <div class="footer-item social-links">
-                <a id="footer-whatsapp-link" href="#" target="_blank" aria-label="WhatsApp">
+                <a href="https://wa.me/962791234567" target="_blank" aria-label="WhatsApp">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.75,13.96C17,14.26 17.07,14.73 16.96,15.17C16.86,15.61 16.56,16 16.21,16.35C15.88,16.69 15.45,16.93 15,17.04C14.55,17.15 14.04,17.2 13.53,17.09C12.82,16.92 12.03,16.6 11.16,16.14C9.89,15.44 8.78,14.44 7.89,13.21C7.1,12.1 6.56,11.04 6.27,9.94C6.08,9.23 6,8.5 6.03,7.75C6.07,7.26 6.21,6.8 6.45,6.38C6.69,5.96 7.03,5.62 7.42,5.36C7.81,5.11 8.22,5 8.65,5H9.3C9.63,5 9.93,5.1 10.16,5.29C10.39,5.48 10.58,5.72 10.7,6C10.91,6.41 11.11,6.84 11.29,7.28C11.34,7.41 11.36,7.55 11.37,7.68C11.37,7.83 11.34,7.98 11.27,8.14L10.8,9.04C10.7,9.21 10.66,9.36 10.66,9.48C10.66,9.59 10.68,9.69 10.72,9.78C10.93,10.24 11.27,10.73 11.75,11.25C12.25,11.75 12.73,12.09 13.22,12.28C13.31,12.32 13.41,12.34 13.53,12.34C13.66,12.34 13.81,12.3 13.96,12.2L14.86,11.73C15.02,11.66 15.17,11.63 15.31,11.63C15.45,11.63 15.58,11.65 15.71,11.7C16.16,11.87 16.59,12.07 17,12.29C17.28,12.41 17.52,12.59 17.71,12.82C17.9,13.05 18,13.32 18,13.65V14.24L17.75,13.96M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C10.84,22 9.7,21.76 8.6,21.31L4,22.5L5.19,17.9C4.24,16.54 3.54,14.9 3.54,13.14L3.5,13A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" /></svg>
                 </a>
                 <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
@@ -1303,7 +1319,7 @@
             </div>
             <div class="footer-item">
                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" /></svg>
-                <a id="footer-phone-link" href="#" dir="ltr"></a>
+                <a href="tel:+962791234567" dir="ltr">+962 79 123 4567</a>
             </div>
         </div>
     </footer>
@@ -1333,53 +1349,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            // =================================================================
-            // START: CONFIGURATION - ابدأ التعديل هنا
-            // =================================================================
-            const config = {
-                // أسماء العروسين
-                groomName: "أحمد",
-                brideName: "فاطمة",
-
-                // تاريخ العداد التنازلي (مهم جداً أن يكون بهذا التنسيق)
-                // Format: "Month Day, YYYY HH:MM:SS" e.g., "December 25, 2025 20:00:00"
-                countdownDate: "December 25, 2025 20:00:00",
-
-                // تفاصيل الحفل
-                event: {
-                    date: "الجمعة، ٢٥ ديسمبر ٢٠٢٥",
-                    time: "تبدأ المراسم الساعة ٨:٠٠ مساءً",
-                    venue: "قاعة بانوراما",
-                    address: "عمان, الأردن",
-                    mapsLink: "https://maps.app.goo.gl/YourMapLinkHere"
-                },
-
-                // روابط صور الألبوم (يمكنك إضافة أو حذف الروابط)
-                albumImages: [
-                    'https://images.pexels.com/photos/1730877/pexels-photo-1730877.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/313707/pexels-photo-313707.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/931177/pexels-photo-931177.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                    'https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg?auto=compress&cs=tinysrgb&w=600'
-                ],
-                
-                // رابط الصورة الختامية (في القسم قبل الأخير)
-                finalImage: "https://dl.dropboxusercontent.com/scl/fi/2853ve50uwufm6uwcqaf2/r.png?rlkey=izo4gwknlf9nwnu7gidy2dcck&st=sywtwgfh&dl=0",
-
-                // أرقام التواصل
-                contact: {
-                    whatsapp: "962791234567", // رقم الواتساب بدون علامة +
-                    phone: "+962 79 123 4567"  // رقم الهاتف مع رمز الدولة
-                }
-            };
-            // =================================================================
-            // END: CONFIGURATION - انتهى قسم التعديل
-            // =================================================================
-
-
-            // =================================================================
-            // Firebase Configuration
-            // =================================================================
             const firebaseConfig = {
                 apiKey: "AIzaSyB1pMv9fIJU6UlEik_wIvEWhmoq6Y8o0es",
                 authDomain: "wedding-invitation-guestbook.firebaseapp.com",
@@ -1390,44 +1359,13 @@
             };
             try {
                 firebase.initializeApp(firebaseConfig);
+                console.log("Firebase Initialized Successfully");
             } catch (e) {
                 console.error("Error initializing Firebase", e);
             }
             const db = firebase.firestore();
             const messagesCollection = db.collection('messages');
 
-
-            // =================================================================
-            // Populate Data from Config
-            // =================================================================
-            function populateData() {
-                // Hero Section
-                document.getElementById('groom-name').textContent = config.groomName;
-                document.getElementById('bride-name').textContent = config.brideName;
-
-                // Event Details
-                document.getElementById('event-date').textContent = config.event.date;
-                document.getElementById('event-time').textContent = config.event.time;
-                const locationText = `${config.event.venue}، ${config.event.address}`;
-                document.getElementById('event-location').textContent = locationText;
-                document.getElementById('event-maps-link').href = config.event.mapsLink;
-
-                // Final Image
-                document.getElementById('final-image-bg').src = config.finalImage;
-
-                // Footer
-                document.getElementById('footer-location').textContent = locationText;
-                document.getElementById('footer-whatsapp-link').href = `https://wa.me/${config.contact.whatsapp}`;
-                const phoneLink = document.getElementById('footer-phone-link');
-                phoneLink.href = `tel:${config.contact.phone.replace(/\s/g, '')}`;
-                phoneLink.textContent = config.contact.phone;
-            }
-            populateData();
-
-
-            // =================================================================
-            // Modal Logic
-            // =================================================================
             const modal = document.getElementById('custom-modal');
             const modalMessage = document.getElementById('modal-message');
             const modalOkBtn = document.getElementById('modal-ok-btn');
@@ -1464,9 +1402,6 @@
                 if (e.target === modal) { closeModal(); }
             });
 
-            // =================================================================
-            // Navigation Logic
-            // =================================================================
             const hamburgerBtn = document.querySelector('.hamburger-btn');
             const navMenu = document.querySelector('.main-nav');
             const closeBtn = document.querySelector('.close-btn');
@@ -1485,9 +1420,6 @@
                 });
             });
 
-            // =================================================================
-            // Slideshow Logic
-            // =================================================================
             const slides = document.querySelectorAll('.slide');
             let currentSlide = 0;
             if (slides.length > 0) {
@@ -1502,12 +1434,9 @@
                 showSlide(0);
                 setInterval(nextSlide, 5000);
             }
-            
-            // =================================================================
-            // Countdown Timer Logic
-            // =================================================================
+
             const countdown = () => {
-                const weddingDate = new Date(config.countdownDate).getTime();
+                const weddingDate = new Date("December 25, 2025 20:00:00").getTime();
                 const now = new Date().getTime();
                 const gap = weddingDate - now;
 
@@ -1534,15 +1463,17 @@
             const countdownInterval = setInterval(countdown, 1000);
             countdown();
 
-            // =================================================================
-            // Album Carousel Logic
-            // =================================================================
             const albumCarousel = document.getElementById('album-carousel');
             const prevBtn = document.getElementById('album-prev-btn');
             const nextBtn = document.getElementById('album-next-btn');
-
+            const images = [
+                'https://dl.dropboxusercontent.com/scl/fi/uuswld9j4vyombj0clbkr/IMG-20250722-WA0004.jpg?rlkey=vlrj25kmy4tnnv84oiegqa73m&dl=0',
+                'https://dl.dropboxusercontent.com/scl/fi/rndo1z24ktieqc9m9wi5d/A2.jpg?rlkey=t8ff4n9ewvdw8vhvq2sv83dzm&st=hqbe2mc4&dl=0',
+                'https://dl.dropboxusercontent.com/scl/fi/u8rad4m9dyxpju3lftq8n/A3.jpg?rlkey=b3er8qwloykneo8x5y14wzix5&st=p71aftkc&dl=0'
+          
+            ];
             if (albumCarousel && prevBtn && nextBtn) {
-                config.albumImages.forEach((src, i) => {
+                images.forEach((src, i) => {
                     const card = document.createElement('div');
                     card.classList.add('album-card');
                     card.dataset.index = i;
@@ -1553,14 +1484,12 @@
                     card.appendChild(img);
                     albumCarousel.appendChild(card);
                 });
-
                 const albumCards = document.querySelectorAll('.album-card');
                 let currentCardIndex = 0;
                 let autoPlayInterval;
-
                 function updateCarousel() {
                     albumCards.forEach((card, i) => {
-                        const offset = (i - currentCardIndex + config.albumImages.length) % config.albumImages.length;
+                        const offset = (i - currentCardIndex + images.length) % images.length;
                         let transform = '';
                         let opacity = '1';
                         if (offset === 0) {
@@ -1569,7 +1498,7 @@
                         } else if (offset === 1) {
                             transform = 'translateX(50%) scale(0.8) translateZ(-150px) rotateY(-45deg)';
                             card.classList.remove('active-card');
-                        } else if (offset === config.albumImages.length - 1) {
+                        } else if (offset === images.length - 1) {
                             transform = 'translateX(-50%) scale(0.8) translateZ(-150px) rotateY(45deg)';
                             card.classList.remove('active-card');
                         } else {
@@ -1579,15 +1508,15 @@
                         }
                         card.style.transform = transform;
                         card.style.opacity = opacity;
-                        card.style.zIndex = config.albumImages.length - Math.min(offset, config.albumImages.length - offset);
+                        card.style.zIndex = images.length - Math.min(offset, images.length - offset);
                     });
                 }
                 function showNext() {
-                    currentCardIndex = (currentCardIndex + 1) % config.albumImages.length;
+                    currentCardIndex = (currentCardIndex + 1) % images.length;
                     updateCarousel();
                 }
                 function showPrev() {
-                    currentCardIndex = (currentCardIndex - 1 + config.albumImages.length) % config.albumImages.length;
+                    currentCardIndex = (currentCardIndex - 1 + images.length) % images.length;
                     updateCarousel();
                 }
                 function startAutoPlay() {
@@ -1610,14 +1539,11 @@
                 startAutoPlay();
             }
 
-            // =================================================================
-            // Share Button Logic
-            // =================================================================
             const shareBtn = document.getElementById('share-btn');
             if (shareBtn) {
                 shareBtn.addEventListener('click', async () => {
                     const shareData = {
-                        title: `دعوة زفاف ${config.brideName} و ${config.groomName}`,
+                        title: 'دعوة زفاف فاطمة وأحمد',
                         text: 'نتشرف بدعوتكم لمشاركتنا فرحتنا!',
                         url: window.location.href
                     };
@@ -1630,35 +1556,29 @@
                     }
                 });
             }
-            
-            // =================================================================
-            // Scroll Animation Logic
-            // =================================================================
-            const detailItems = document.querySelectorAll('.detail-item');
-            if (detailItems.length > 0) {
+
+            // --- START: تعديل الأنيميشن لقسم تفاصيل الحفل ---
+            const detailsContainer = document.querySelector('.details-container');
+            if (detailsContainer) {
                 const observerOptions = {
                     root: null,
                     rootMargin: '0px',
-                    threshold: 0.3
+                    threshold: 0.2
                 };
                 const observerCallback = (entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                        } else {
-                            entry.target.classList.remove('is-visible');
+                            detailsContainer.classList.add('is-visible');
+                            observer.unobserve(entry.target);
                         }
                     });
                 };
                 const detailsObserver = new IntersectionObserver(observerCallback, observerOptions);
-                detailItems.forEach(item => {
-                    detailsObserver.observe(item);
-                });
+                detailsObserver.observe(detailsContainer);
             }
+            // --- END: تعديل الأنيميشن ---
 
-            // =================================================================
-            // Guestbook Logic
-            // =================================================================
+
             const guestbookForm = document.getElementById('guestbook-form');
             const messagesContainer = document.getElementById('messages-container');
             const paginationControls = document.getElementById('pagination-controls');
